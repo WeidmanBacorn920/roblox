@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Roblox Robux</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>🎮 Админ-панель</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <span class="nav-icon">📊</span>
+                    Дашборд
+                </a>
+                <a href="#" class="nav-item" data-section="users">
+                    <span class="nav-icon">👥</span>
+                    Пользователи
+                </a>
+                <a href="#" class="nav-item" data-section="quests">
+                    <span class="nav-icon">📋</span>
+                    Задания
+                </a>
+                <a href="#" class="nav-item" data-section="calendar">
+                    <span class="nav-icon">🗓️</span>
+                    Календарь
+                </a>
+                <a href="#" class="nav-item" data-section="wheel">
+                    <span class="nav-icon">🎡</span>
+                    Колесо фортуны
+                </a>
+                <a href="#" class="nav-item" data-section="cases">
+                    <span class="nav-icon">🎁</span>
+                    Кейсы
+                </a>
+                <a href="#" class="nav-item" data-section="promocodes">
+                    <span class="nav-icon">🎟️</span>
+                    Промокоды
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1 id="pageTitle">Дашборд</h1>
+                <button class="logout-btn" onclick="logout()">Выйти</button>
+            </header>
+
+            <!-- Дашборд -->
+            <section id="dashboard" class="section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <p class="stat-label">Всего пользователей</p>
+                            <p class="stat-value" id="totalUsers">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <p class="stat-label">Активных за 24ч</p>
+                            <p class="stat-value" id="activeUsers">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💎</div>
+                        <div class="stat-info">
+                            <p class="stat-label">Всего Robux</p>
+                            <p class="stat-value" id="totalBalance">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔗</div>
+                        <div class="stat-info">
+                            <p class="stat-label">Всего рефералов</p>
+                            <p class="stat-value" id="totalReferrals">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <h3>Статистика активности</h3>
+                    <p>График активности пользователей (в разработке)</p>
+                </div>
+            </section>
+
+            <!-- Пользователи -->
+            <section id="users" class="section">
+                <div class="section-controls">
+                    <input type="text" id="userSearch" placeholder="Поиск по ID или имени..." class="search-input">
+                    <button onclick="searchUsers()" class="btn-primary">Поиск</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Баланс</th>
+                                <th>Рефералов</th>
+                                <th>Кликов</th>
+                                <th>Дата регистрации</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <tr>
+                                <td colspan="7" class="loading">Загрузка...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="usersPagination"></div>
+            </section>
+
+            <!-- Задания -->
+            <section id="quests" class="section">
+                <div class="section-controls">
+                    <button onclick="showCreateQuestModal()" class="btn-primary">+ Создать задание</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Тип</th>
+                                <th>Цель</th>
+                                <th>Награда</th>
+                                <th>Активно</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questsTable">
+                            <tr>
+                                <td colspan="7" class="loading">Загрузка...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Календарь -->
+            <section id="calendar" class="section">
+                <div class="section-controls">
+                    <label>Сезон: 
+                        <select id="seasonSelect" onchange="loadCalendar()">
+                            <option value="1">Сезон 1</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="calendar-admin-grid" id="calendarAdmin">
+                    <p class="loading">Загрузка...</p>
+                </div>
+            </section>
+
+            <!-- Колесо фортуны -->
+            <section id="wheel" class="section">
+                <h3>Призы колеса фортуны</h3>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Тип</th>
+                                <th>Значение</th>
+                                <th>Шанс (%)</th>
+                                <th>Цвет</th>
+                                <th>Активно</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wheelPrizesTable">
+                            <tr>
+                                <td colspan="8" class="loading">Загрузка...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Кейсы -->
+            <section id="cases" class="section">
+                <h3>Призы кейсов</h3>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Тип</th>
+                                <th>Значение</th>
+                                <th>Шанс (%)</th>
+                                <th>Редкость</th>
+                                <th>Активно</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="casePrizesTable">
+                            <tr>
+                                <td colspan="8" class="loading">Загрузка...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Промокоды -->
+            <section id="promocodes" class="section">
+                <div class="section-controls">
+                    <button onclick="showCreatePromocodeModal()" class="btn-primary">+ Создать промокод</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Код</th>
+                                <th>Награда</th>
+                                <th>Использований</th>
+                                <th>Макс. использований</th>
+                                <th>Истекает</th>
+                                <th>Активен</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="promocodesTable">
+                            <tr>
+                                <td colspan="7" class="loading">Загрузка...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Модальные окна -->
+    <!-- Редактирование пользователя -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <h2>Редактировать пользователя</h2>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                <div class="form-group">
+                    <label>ID:</label>
+                    <input type="text" id="editUserIdDisplay" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Имя:</label>
+                    <input type="text" id="editUserName" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Баланс:</label>
+                    <input type="number" id="editUserBalance" required>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="editUserBanned">
+                        Забанить
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('editUserModal')" class="btn-secondary">Отмена</button>
+                    <button type="submit" class="btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Создание промокода -->
+    <div id="createPromocodeModal" class="modal">
+        <div class="modal-content">
+            <h2>Создать промокод</h2>
+            <form id="createPromocodeForm">
+                <div class="form-group">
+                    <label>Код (оставьте пустым для автогенерации):</label>
+                    <input type="text" id="promocodeCode" placeholder="PROMO2024">
+                </div>
+                <div class="form-group">
+                    <label>Тип награды:</label>
+                    <select id="promocodeRewardType" required>
+                        <option value="robux">Robux</option>
+                        <option value="wheel_spin">Спин колеса</option>
+                        <option value="case">Кейс</option>
+                        <option value="key">Ключ дня</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Количество:</label>
+                    <input type="number" id="promocodeRewardAmount" min="1" value="10" required>
+                </div>
+                <div class="form-group">
+                    <label>Макс. использований (пусто = без ограничений):</label>
+                    <input type="number" id="promocodeMaxUses" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Срок действия (пусто = без ограничений):</label>
+                    <input type="datetime-local" id="promocodeExpires">
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('createPromocodeModal')" class="btn-secondary">Отмена</button>
+                    <button type="submit" class="btn-primary">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Уведомление -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Скрипты -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

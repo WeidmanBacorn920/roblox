@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Roblox Robux - Заработай играя!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <!-- Верхняя панель -->
+    <header class="header">
+        <div class="header-left">
+            <img src="assets/avatar-placeholder.png" alt="Avatar" class="user-avatar" id="userAvatar">
+            <span class="username" id="username">Загрузка...</span>
+        </div>
+        <div class="header-right">
+            <div class="balance">
+                <img src="assets/robux-icon.svg" alt="Robux" class="robux-icon">
+                <span id="balance">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главный контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Навигационные кнопки -->
+            <div class="nav-buttons">
+                <button class="nav-btn active" data-section="home">
+                    <span class="nav-icon">🏠</span>
+                    <span>Главная</span>
+                </button>
+                <button class="nav-btn" data-section="profile">
+                    <span class="nav-icon">👤</span>
+                    <span>Профиль</span>
+                </button>
+            </div>
+
+            <!-- Секция: Главная -->
+            <section id="home" class="section active">
+                <h2 class="section-title">Игровые механики</h2>
+                
+                <div class="widgets-grid">
+                    <!-- Кликер -->
+                    <div class="widget clicker-widget" id="clickerWidget">
+                        <div class="widget-icon">🎯</div>
+                        <h3>Кликер</h3>
+                        <p class="widget-desc">Зарабатывай Robux кликами</p>
+                        <div class="key-status" id="keyStatus">
+                            <span class="key-icon">🔒</span>
+                            <span>Требуется ключ дня</span>
+                        </div>
+                        <button class="widget-btn" id="clickerBtn">
+                            <span class="btn-text">Открыть кликер</span>
+                        </button>
+                    </div>
+
+                    <!-- Задания -->
+                    <div class="widget" onclick="showQuests()">
+                        <div class="widget-icon">📋</div>
+                        <h3>Задания</h3>
+                        <p class="widget-desc">Выполняй квесты и получай награды</p>
+                        <button class="widget-btn">
+                            <span class="btn-text">Открыть</span>
+                        </button>
+                    </div>
+
+                    <!-- Колесо фортуны -->
+                    <div class="widget" onclick="showWheel()">
+                        <div class="widget-icon">🎡</div>
+                        <h3>Колесо фортуны</h3>
+                        <p class="widget-desc">Испытай удачу на колесе</p>
+                        <button class="widget-btn">
+                            <span class="btn-text">Крутить</span>
+                        </button>
+                    </div>
+
+                    <!-- Адвент-календарь -->
+                    <div class="widget" onclick="showCalendar()">
+                        <div class="widget-icon">🗓️</div>
+                        <h3>Адвент-календарь</h3>
+                        <p class="widget-desc">30 дней наград</p>
+                        <button class="widget-btn">
+                            <span class="btn-text">Открыть</span>
+                        </button>
+                    </div>
+
+                    <!-- Кейсы -->
+                    <div class="widget" onclick="showCases()">
+                        <div class="widget-icon">🎁</div>
+                        <h3>Кейсы</h3>
+                        <p class="widget-desc">Открывай кейсы с призами</p>
+                        <button class="widget-btn">
+                            <span class="btn-text">Открыть</span>
+                        </button>
+                    </div>
+
+                    <!-- Промокод -->
+                    <div class="widget" onclick="showPromocode()">
+                        <div class="widget-icon">🎟️</div>
+                        <h3>Промокод</h3>
+                        <p class="widget-desc">Введи промокод для награды</p>
+                        <button class="widget-btn">
+                            <span class="btn-text">Ввести</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция: Профиль -->
+            <section id="profile" class="section">
+                <h2 class="section-title">Профиль пользователя</h2>
+                
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <img src="assets/avatar-placeholder.png" alt="Avatar" class="profile-avatar" id="profileAvatar">
+                        <div class="profile-info">
+                            <h3 id="profileUsername">Пользователь</h3>
+                            <p class="profile-id">ID: <span id="profileId">0</span></p>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-icon">💎</span>
+                            <div>
+                                <p class="stat-label">Баланс</p>
+                                <p class="stat-value" id="profileBalance">0 Robux</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">👥</span>
+                            <div>
+                                <p class="stat-label">Рефералов</p>
+                                <p class="stat-value" id="profileReferrals">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🖱️</span>
+                            <div>
+                                <p class="stat-label">Кликов</p>
+                                <p class="stat-value" id="profileClicks">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🔑</span>
+                            <div>
+                                <p class="stat-label">Ключ дня</p>
+                                <p class="stat-value" id="profileKey">Неактивен</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-referral">
+                        <h4>Реферальная ссылка</h4>
+                        <div class="referral-link">
+                            <input type="text" id="referralLink" readonly value="Загрузка...">
+                            <button onclick="copyReferralLink()">📋</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transactions-section">
+                    <h3>Последние транзакции</h3>
+                    <div id="transactionsList" class="transactions-list">
+                        <p class="no-data">Загрузка...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальные окна -->
+    <!-- Кликер -->
+    <div id="clickerModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('clickerModal')">&times;</button>
+            <h2>Кликер</h2>
+            <div class="clicker-container">
+                <div class="clicker-stats">
+                    <p>Кликов: <span id="clickCount">0</span></p>
+                    <p>Заработано: <span id="earnedAmount">0</span> Robux</p>
+                </div>
+                <button id="clickButton" class="click-button">
+                    <span class="click-emoji">💎</span>
+                </button>
+                <p class="clicker-hint">Кликай для заработка!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Задания -->
+    <div id="questsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('questsModal')">&times;</button>
+            <h2>Ежедневные задания</h2>
+            <div id="questsList" class="quests-list">
+                <p class="loading">Загрузка...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Колесо фортуны -->
+    <div id="wheelModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('wheelModal')">&times;</button>
+            <h2>Колесо фортуны</h2>
+            <div class="wheel-container">
+                <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                <button id="spinButton" class="spin-button">Крутить колесо</button>
+                <p class="spins-count">Спинов: <span id="spinsCount">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Адвент-календарь -->
+    <div id="calendarModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('calendarModal')">&times;</button>
+            <h2>Адвент-календарь</h2>
+            <div id="calendarGrid" class="calendar-grid">
+                <p class="loading">Загрузка...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кейсы -->
+    <div id="casesModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('casesModal')">&times;</button>
+            <h2>Кейсы</h2>
+            <div class="cases-container">
+                <div class="case-item" onclick="openCase('common')">
+                    <div class="case-icon">📦</div>
+                    <h3>Обычный кейс</h3>
+                    <p>В инвентаре: <span id="commonCases">0</span></p>
+                    <button class="case-btn">Открыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Промокод -->
+    <div id="promocodeModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('promocodeModal')">&times;</button>
+            <h2>Ввести промокод</h2>
+            <div class="promocode-container">
+                <input type="text" id="promocodeInput" placeholder="Введите промокод" maxlength="20">
+                <button onclick="activatePromocode()" class="activate-btn">Активировать</button>
+                <p id="promocodeMessage" class="promo-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомление -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Скрипты -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/clicker.js"></script>
+    <script src="js/quests.js"></script>
+    <script src="js/wheel.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/cases.js"></script>
+</body>
+</html>
